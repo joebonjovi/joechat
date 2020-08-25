@@ -1,0 +1,114 @@
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body>
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-analytics.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-database.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+    var firebaseConfig = {
+    apiKey: "AIzaSyDRjxTCusISBEHGhEUB9sHsSfPA1pOh2y0",
+    authDomain: "jbtsc-621e6.firebaseapp.com",
+    databaseURL: "https://jbtsc-621e6.firebaseio.com",
+    projectId: "jbtsc-621e6",
+    storageBucket: "jbtsc-621e6.appspot.com",
+    messagingSenderId: "852159361733",
+    appId: "1:852159361733:web:bb140df34a42f98d0476ac",
+    measurementId: "G-WJMBPDHNLC"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  if(localStorage.getItem("name") == null){
+    var myName = prompt("Enter your name");
+	localStorage.setItem("name", myName);
+  }
+  
+  function sendMessage() {
+  var message = document.getElementById('message').value;
+  
+  firebase.database().ref("messages").push().set({
+  "sender": localStorage.getItem("name"),
+  "message": message
+  });
+  
+  }
+  
+  firebase.database().ref("messages").on("child_added", function (snapshot) {
+  var html = "";
+  html += "<li>";
+  html += snapshot.val().sender + ": " + snapshot.val().message;
+  html += "</li>";
+  
+  localStorage.setItem("messages", html);
+  document.getElementById('messages').innerHTML += localStorage.getItem("messages");
+  });
+  
+  function deleteMessage(){
+	firebase.database().ref("messages").remove();
+	localStorage.removeItem("messages");
+  }
+  
+  firebase.database().ref("messages").on("child_removed", function (snapshot) {
+  location.reload();
+  });
+</script>
+<style>
+body{
+background: linear-gradient(to right, blue, lightblue);
+font-family: Courier;
+}
+
+ul{
+margin-top: 50;
+font-size: 25;
+width: 360;
+list-style-type: none;
+}
+
+.message-container{
+border: solid black 3px;
+margin-top: 50;
+position: relative;
+}
+
+h1{
+margin-left: 20;
+}
+
+.message-input input{
+padding: 7px;
+border: solid blue 3px;
+border-radius: 5px;
+outline: none;
+}
+
+.message-input button{
+padding: 7px;
+border: solid blue 3px;
+border-radius: 5px;
+background-color: purple;
+outline: none;
+}
+</style>
+<center>
+<div class="message-input">
+<input id="message" maxlength="">
+<button onclick="sendMessage()">Send</button>
+<button onclick="deleteMessage()">Delete</button>
+</div>
+</center>
+<div class="message-container">
+<h1>THE JOE CHAT</h1>
+<ul id="messages"></ul>
+</div>
+</body>
+</html>
