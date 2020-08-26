@@ -31,13 +31,22 @@
     var myName = prompt("Enter your name");
 	localStorage.setItem("name", myName);
   }
+	
+  var ip;
+  fetch("https://api.ipify.org/?format=json")
+  .then(results => results.json())
+  .then(data => ip = (data.ip));	
+  function configIp(){
+  ip = ip.replace(/\./g,'');
+  }
   
   function sendMessage() {
   var message = document.getElementById('message').value;
   
   firebase.database().ref("messages").push().set({
   "sender": localStorage.getItem("name"),
-  "message": message
+  "message": message,
+  "ip": ip
   });
   
   document.getElementById('message').value = "";
