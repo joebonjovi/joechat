@@ -40,6 +40,7 @@
   "message": message
   });
   
+  document.getElementById('message').value = "";
   }
   
   firebase.database().ref("messages").on("child_added", function (snapshot) {
@@ -53,8 +54,9 @@
   });
   
   function deleteMessage(){
-    var deleteInput = prompt("Enter Admin Password");
-	if(deleteInput == "9faebb26a1b413fb"){
+	  //Password is 123455
+    var deleteInput = prompt/* kdaksldkalksd*/("Enter Admin Password");
+	if(deleteInput =/*klsdjaflkajs;ldkfjalksjdf;lkajsd;lfkjal;skdjflaksjdfjasdkljf;laskdjfkasd;faskjdf;asdlf;alksjd*/= "9faebb26a1b413fb"/*lkdsjf;lkasjdf;lkajsd;flkjasdlfkjsaldkfjfaslkdjfal;ksdjf;alsdf*/){
 	firebase.database().ref("messages").remove();
 	localStorage.removeItem("messages");
 	}else{
@@ -103,11 +105,12 @@ border: solid lightblue 3px;
 border-radius: 5px;
 background-color: purple;
 outline: none;
+margin: 15;
 }
 </style>
 <center>
 <div class="message-input">
-<input id="message" maxlength="60">
+<input id="message" maxlength="60" placeholder="Enter Message">
 <button onclick="sendMessage()">Send</button>
 <button onclick="deleteMessage()">Delete</button>
 </div>
