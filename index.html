@@ -31,11 +31,13 @@
     var myName = prompt("Enter your name");
 	localStorage.setItem("name", myName);
   }
-	
-  if (event.keyCode === 13) {
+window.addEventListener("keydown", checkMyKeyPress, false);
+function checkMyKeyPress(key){
+if (key.keyCode === 13) {
         event.preventDefault();
         document.getElementById("send").click();
-    }	
+    }
+}	
 	
   var ip;
   fetch("https://api.ipify.org/?format=json")
