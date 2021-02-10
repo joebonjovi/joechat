@@ -57,7 +57,7 @@ if (key.keyCode === 13) {
   function deleteMessage(){
 	  //Password is 123455
     var deleteInput = prompt("Enter Admin Password");
-	if(deleteInput == "9faebb26a1b413fb"){
+	if(deleteInput == "9faebb26a1b413fb#"){
 	firebase.database().ref("messages").remove();
 	localStorage.removeItem("messages");
 	}else{
