@@ -10,8 +10,8 @@ const firebaseConfig = {
   measurementId: "G-WJMBPDHNLC"
 };
   // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
   if(localStorage.getItem("name") == null){
     var myName = prompt("Enter your name");
 	localStorage.setItem("name", myName);
@@ -35,7 +35,7 @@ if (key.keyCode === 13) {
   function sendMessage() {
   var message = document.getElementById('message').value;
   
-  firebase.database().ref("messages").push().set({
+  database.ref("messages").push().set({
   "sender": localStorage.getItem("name"),
   "message": message,
   "ip": ip
@@ -44,7 +44,7 @@ if (key.keyCode === 13) {
   document.getElementById('message').value = "";
   }
   
-  firebase.database().ref("messages").on("child_added", function (snapshot) {
+  database.ref("messages").on("child_added", function (snapshot) {
   var html = "";
   html += "<li>";
   html += snapshot.val().sender + ": " + snapshot.val().message;
@@ -58,13 +58,13 @@ if (key.keyCode === 13) {
 	  //Password is 123455
     var deleteInput = prompt("Enter Admin Password");
 	if(deleteInput == "9faebb26a1b413fb#"){
-	firebase.database().ref("messages").remove();
+	database.ref("messages").remove();
 	localStorage.removeItem("messages");
 	}else{
 	alert("Wrong Password");
 	}
   }
   
-  firebase.database().ref("messages").on("child_removed", function (snapshot) {
+  database.ref("messages").on("child_removed", function (snapshot) {
   location.reload();
   });
